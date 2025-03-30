@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TimeDepositControllerTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2025-03-30T19:22:22.332Z" hostname="ip-192-168-1-116.eu-west-2.compute.internal" time="0.451">
+  <properties/>
+  <testcase name="updateAllBalances should return success message()" classname="TimeDepositControllerTest" time="0.435"/>
+  <testcase name="createTimeDeposit should return created TimeDepositDTO()" classname="TimeDepositControllerTest" time="0.007"/>
+  <testcase name="withdrawTimeDeposit should return remaining balance()" classname="TimeDepositControllerTest" time="0.003"/>
+  <testcase name="calculateMaturityAmount should return maturity amount()" classname="TimeDepositControllerTest" time="0.001"/>
+  <testcase name="getAllTimeDeposits should return list of TimeDepositDTOs()" classname="TimeDepositControllerTest" time="0.002"/>
+  <testcase name="getTimeDeposit should return TimeDepositDTO()" classname="TimeDepositControllerTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/rdamacedo/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.8/ae6ebe485f3bcd0a1e20241488a32e6400a501ef/byte-buddy-agent-1.14.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+SLF4J: No SLF4J providers were found.
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details.
+SLF4J: Class path contains SLF4J bindings targeting slf4j-api versions 1.7.x or earlier.
+SLF4J: Ignoring binding found at [jar:file:/Users/rdamacedo/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.11/4741689214e9d1e8408b206506cbe76d1c6a7d60/logback-classic-1.2.11.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See https://www.slf4j.org/codes.html#ignoredBindings for an explanation.
+]]></system-err>
+</testsuite>

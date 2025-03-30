@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.ikigaidigital.service.TimeDepositRetrievalServiceImplTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-03-30T19:22:22.865Z" hostname="ip-192-168-1-116.eu-west-2.compute.internal" time="0.002">
+  <properties/>
+  <testcase name="getTimeDeposit should throw TimeDepositNotFoundException()" classname="org.ikigaidigital.service.TimeDepositRetrievalServiceImplTest" time="0.001"/>
+  <testcase name="getTimeDeposit should return TimeDeposit()" classname="org.ikigaidigital.service.TimeDepositRetrievalServiceImplTest" time="0.0"/>
+  <testcase name="findAll should return list of TimeDeposits()" classname="org.ikigaidigital.service.TimeDepositRetrievalServiceImplTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

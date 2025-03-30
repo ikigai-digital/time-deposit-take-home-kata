@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.ikigaidigital.TimeDepositCalculatorTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2025-03-30T19:22:22.785Z" hostname="ip-192-168-1-116.eu-west-2.compute.internal" time="0.026">
+  <properties/>
+  <testcase name="updateBalance should handle zero days()" classname="org.ikigaidigital.TimeDepositCalculatorTest" time="0.017"/>
+  <testcase name="updateBalance should not calculate interest for premium plan less than 45 days()" classname="org.ikigaidigital.TimeDepositCalculatorTest" time="0.0"/>
+  <testcase name="updateBalance should not calculate interest for student plan less than 366 days()" classname="org.ikigaidigital.TimeDepositCalculatorTest" time="0.001"/>
+  <testcase name="updateBalance should not calculate interest for less than 30 days()" classname="org.ikigaidigital.TimeDepositCalculatorTest" time="0.0"/>
+  <testcase name="updateBalance should calculate interest for basic plan()" classname="org.ikigaidigital.TimeDepositCalculatorTest" time="0.001"/>
+  <testcase name="updateBalance should calculate interest for premium plan()" classname="org.ikigaidigital.TimeDepositCalculatorTest" time="0.0"/>
+  <testcase name="updateBalance should handle zero balance()" classname="org.ikigaidigital.TimeDepositCalculatorTest" time="0.0"/>
+  <testcase name="updateBalance should calculate interest for multiple deposits()" classname="org.ikigaidigital.TimeDepositCalculatorTest" time="0.004"/>
+  <testcase name="updateBalance should calculate interest for student plan()" classname="org.ikigaidigital.TimeDepositCalculatorTest" time="0.0"/>
+  <testcase name="updateBalance should handle negative balance()" classname="org.ikigaidigital.TimeDepositCalculatorTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

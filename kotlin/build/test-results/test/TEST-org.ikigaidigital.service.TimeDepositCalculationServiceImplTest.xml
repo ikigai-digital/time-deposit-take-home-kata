@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.ikigaidigital.service.TimeDepositCalculationServiceImplTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-30T19:22:22.812Z" hostname="ip-192-168-1-116.eu-west-2.compute.internal" time="0.047">
+  <properties/>
+  <testcase name="calculateMaturityAmount should return correct amount()" classname="org.ikigaidigital.service.TimeDepositCalculationServiceImplTest" time="0.047"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
