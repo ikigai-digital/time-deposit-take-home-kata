@@ -1,5 +1,6 @@
-package org.ikigaidigital;
+package org.ikigaidigital.service;
 
+import org.ikigaidigital.model.TimeDeposit;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -7,6 +8,7 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TimeDepositCalculatorTest {
+
     @Test
     public void updateBalance_Test() {
         TimeDepositCalculator calc = new TimeDepositCalculator();

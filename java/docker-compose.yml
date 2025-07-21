@@ -1,0 +1,36 @@
+services:
+  bank_time_deposit_app:
+    build: .
+    container_name: bank_time_deposit_app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/deposit_db
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8080:8080"
+      - "8787:8787"
+  postgres:
+    image: postgres:15
+    container_name: time_deposit_postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: deposit_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "user", "-d", "deposit_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  pg_data:
