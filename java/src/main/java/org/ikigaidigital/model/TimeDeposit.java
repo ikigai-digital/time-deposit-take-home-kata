@@ -1,4 +1,4 @@
-package org.ikigaidigital;
+package org.ikigaidigital.model;
 
 public class TimeDeposit {
     private int id;
