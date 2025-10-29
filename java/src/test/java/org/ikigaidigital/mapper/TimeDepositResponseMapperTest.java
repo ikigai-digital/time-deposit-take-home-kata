@@ -9,7 +9,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.ikigaidigital.util.TestUtil.*;
+import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_RESPONSE_1;
+import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_WITH_WITHDRAWALS_1;
+import static org.ikigaidigital.util.TestUtil.WITHDRAWAL_1;
+import static org.ikigaidigital.util.TestUtil.WITHDRAWAL_RESPONSE_1;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,7 +29,7 @@ class TimeDepositResponseMapperTest {
     }
 
     @Test
-    public void map() {
+    void map() {
 
         when(withdrawalResponseMapper.map(WITHDRAWAL_1))
                 .thenReturn(WITHDRAWAL_RESPONSE_1);

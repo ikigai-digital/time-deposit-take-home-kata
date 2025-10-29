@@ -21,6 +21,7 @@
         <swagger.openapi.version>2.8.13</swagger.openapi.version>
         <spring.boot.version>3.5.7</spring.boot.version>
         <lombok.version>1.18.42</lombok.version>
+        <apache-common.version>4.5.0</apache-common.version>
         <maven.compiler>3.8.1</maven.compiler>
 
         <assertj.version>3.27.6</assertj.version>
@@ -72,6 +73,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${apache-common.version}</version>
         </dependency>
 
         <!-- testing -->

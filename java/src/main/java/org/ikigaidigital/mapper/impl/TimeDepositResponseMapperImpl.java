@@ -12,14 +12,14 @@ import java.util.List;
 @Component
 public class TimeDepositResponseMapperImpl implements TimeDepositResponseMapper {
 
-    private WithdrawalResponseMapper withdrawalResponseMapper;
+    private final WithdrawalResponseMapper withdrawalResponseMapper;
 
-    public TimeDepositResponseMapperImpl(WithdrawalResponseMapper withdrawalResponseMapper) {
+    public TimeDepositResponseMapperImpl(final WithdrawalResponseMapper withdrawalResponseMapper) {
         this.withdrawalResponseMapper = withdrawalResponseMapper;
     }
 
     @Override
-    public TimeDepositResponse map(TimeDepositWithWithdrawals timeDeposit) {
+    public TimeDepositResponse map(final TimeDepositWithWithdrawals timeDeposit) {
 
         List<WithdrawalResponse> withdrawals = timeDeposit.getWithdrawals().stream()
                 .map(withdrawal -> withdrawalResponseMapper.map(withdrawal)).toList();

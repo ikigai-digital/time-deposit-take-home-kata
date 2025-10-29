@@ -13,7 +13,7 @@ class WithdrawalResponseMapperTest {
     private final WithdrawalResponseMapper testObj = new WithdrawalResponseMapperImpl();
 
     @Test
-    public void map() {
+    void map() {
         WithdrawalResponse actualWithdrawalResponse = testObj.map(WITHDRAWAL_2);
 
         assertThat(actualWithdrawalResponse).isEqualTo(WITHDRAWAL_RESPONSE_2);

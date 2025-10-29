@@ -2,12 +2,14 @@ package org.ikigaidigital.web.domain.response;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode
 @Getter
+@ToString
 public final class TimeDepositResponse {
     private final int id;
     private final String planType;
