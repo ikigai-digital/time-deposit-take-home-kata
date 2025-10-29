@@ -1,6 +1,6 @@
-package org.ikigaidigital.mapper;
+package org.ikigaidigital.mapper.impl;
 
-import org.ikigaidigital.mapper.impl.WithdrawalResponseMapperImpl;
+import org.ikigaidigital.mapper.WithdrawalResponseMapper;
 import org.ikigaidigital.web.domain.response.WithdrawalResponse;
 import org.junit.jupiter.api.Test;
 

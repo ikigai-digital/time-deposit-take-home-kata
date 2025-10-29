@@ -1,5 +1,7 @@
 package org.ikigaidigital.util;
 
+import org.ikigaidigital.entity.TimeDepositEntity;
+import org.ikigaidigital.entity.WithdrawalEntity;
 import org.ikigaidigital.model.PlanType;
 import org.ikigaidigital.model.TimeDepositWithWithdrawals;
 import org.ikigaidigital.model.Withdrawal;
@@ -14,7 +16,9 @@ public final class TestUtil {
     private TestUtil() {
     }
 
-    public static final Withdrawal WITHDRAWAL_1 = new Withdrawal(10d, OffsetDateTime.now());
+    private static final OffsetDateTime NOW = OffsetDateTime.now();
+
+    public static final Withdrawal WITHDRAWAL_1 = new Withdrawal(10d, NOW);
     public static final Withdrawal WITHDRAWAL_2 = new Withdrawal(20d, OffsetDateTime.now());
     public static final Withdrawal WITHDRAWAL_3 = new Withdrawal(30d, OffsetDateTime.now());
 
@@ -40,4 +44,12 @@ public final class TestUtil {
             new TimeDepositResponse(TIME_DEPOSIT_WITH_WITHDRAWALS_2.getId(), TIME_DEPOSIT_WITH_WITHDRAWALS_2.getPlanType(),
                     TIME_DEPOSIT_WITH_WITHDRAWALS_2.getBalance(), TIME_DEPOSIT_WITH_WITHDRAWALS_2.getDays(),
                     List.of(WITHDRAWAL_RESPONSE_2, WITHDRAWAL_RESPONSE_3));
+
+    public final static WithdrawalEntity WITHDRAWAL_ENTITY_1 = new WithdrawalEntity(1, 10d, NOW, null);
+    public final static TimeDepositEntity TIME_DEPOSIT_ENTITY_1
+            = new TimeDepositEntity(1, PlanType.BASIC.name(), 100d, 365, List.of(WITHDRAWAL_ENTITY_1));
+
+    static {
+        WITHDRAWAL_ENTITY_1.setTimeDeposit(TIME_DEPOSIT_ENTITY_1);
+    }
 }

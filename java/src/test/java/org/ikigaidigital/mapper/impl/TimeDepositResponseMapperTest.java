@@ -1,6 +1,7 @@
-package org.ikigaidigital.mapper;
+package org.ikigaidigital.mapper.impl;
 
-import org.ikigaidigital.mapper.impl.TimeDepositResponseMapperImpl;
+import org.ikigaidigital.mapper.TimeDepositResponseMapper;
+import org.ikigaidigital.mapper.WithdrawalResponseMapper;
 import org.ikigaidigital.web.domain.response.TimeDepositResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
