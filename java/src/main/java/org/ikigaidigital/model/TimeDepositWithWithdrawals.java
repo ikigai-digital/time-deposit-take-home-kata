@@ -1,8 +1,15 @@
 package org.ikigaidigital.model;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@EqualsAndHashCode
+@ToString
+@Getter
 public class TimeDepositWithWithdrawals {
     private final int id;
     private final String planType;
@@ -18,25 +25,5 @@ public class TimeDepositWithWithdrawals {
         this.withdrawals = withdrawals.stream()
                 .map(withdrawal -> new Withdrawal(withdrawal.getAmount(), withdrawal.getDate()))
                 .collect(Collectors.toList());
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getPlanType() {
-        return planType;
-    }
-
-    public Double getBalance() {
-        return balance;
-    }
-
-    public int getDays() {
-        return days;
-    }
-
-    public List<Withdrawal> getWithdrawals() {
-        return withdrawals;
     }
 }

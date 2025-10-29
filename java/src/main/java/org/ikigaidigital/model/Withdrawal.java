@@ -1,22 +1,15 @@
 package org.ikigaidigital.model;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import java.time.OffsetDateTime;
 
+@EqualsAndHashCode
+@AllArgsConstructor
+@Getter
 public class Withdrawal {
 
     private final Double amount;
     private final OffsetDateTime date;
-
-    public Withdrawal(Double amount, OffsetDateTime date) {
-        this.amount = amount;
-        this.date = date;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public OffsetDateTime getDate() {
-        return date;
-    }
 }

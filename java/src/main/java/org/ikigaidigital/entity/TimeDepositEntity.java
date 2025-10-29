@@ -3,6 +3,7 @@ package org.ikigaidigital.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
