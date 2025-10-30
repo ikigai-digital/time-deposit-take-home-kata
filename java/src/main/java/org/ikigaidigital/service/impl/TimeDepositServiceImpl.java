@@ -1,5 +1,6 @@
 package org.ikigaidigital.service.impl;
 
+import com.github.fge.jsonpatch.JsonPatch;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ikigaidigital.entity.TimeDepositEntity;
@@ -39,5 +40,10 @@ public class TimeDepositServiceImpl implements TimeDepositService {
         }
 
         return result;
+    }
+
+    @Override
+    public TimeDepositWithWithdrawals update(int id, JsonPatch updates) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

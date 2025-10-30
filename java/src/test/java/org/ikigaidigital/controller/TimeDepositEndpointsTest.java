@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TimeDepositEndpointsTest {
 
-    private static final String GET_DEPOSITS = "/deposits";
+    private static final String DEPOSITS = "/deposits";
 
     @LocalServerPort
     private int port;
@@ -30,7 +30,7 @@ public class TimeDepositEndpointsTest {
     void getTimeDeposits() {
 
         ResponseEntity<TimeDepositResponse[]> actualResponse = this.restTemplate
-                .getForEntity("http://localhost:" + port + GET_DEPOSITS, TimeDepositResponse[].class);
+                .getForEntity("http://localhost:" + port + DEPOSITS, TimeDepositResponse[].class);
 
         assertThat(actualResponse.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
 
@@ -72,4 +72,5 @@ public class TimeDepositEndpointsTest {
         assertThat(firstWithdrawalForSecondTimeDeposit.getDate().getMonthValue()).isEqualTo(6);
         assertThat(firstWithdrawalForSecondTimeDeposit.getDate().getDayOfMonth()).isEqualTo(25);
     }
+
 }

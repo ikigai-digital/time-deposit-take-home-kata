@@ -1,7 +1,9 @@
 package org.ikigaidigital.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
 import org.ikigaidigital.exception.InternalServerErrorException;
+import org.ikigaidigital.exception.TimeDepositNotFoundException;
 import org.ikigaidigital.mapper.TimeDepositResponseMapper;
 import org.ikigaidigital.service.TimeDepositService;
 import org.ikigaidigital.web.domain.response.TimeDepositResponse;
@@ -19,8 +21,11 @@ import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_RESPONSE_2;
 import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_WITH_WITHDRAWALS_1;
 import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_WITH_WITHDRAWALS_2;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -109,4 +114,71 @@ class TimeDepositControllerTest {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof InternalServerErrorException));
     }
 
+    @Test
+    void updateBalanceOnTimeDeposit() throws Exception {
+
+        String patchRequestBody = """
+                   [{
+                         "op":"replace",
+                         "path":"/balance",
+                         "value":"1500"
+                     }]
+                """;
+
+        when(timeDepositService.update(eq(1), any(JsonPatch.class)))
+                .thenReturn(TIME_DEPOSIT_WITH_WITHDRAWALS_1);
+        when(timeDepositResponseMapper.map(TIME_DEPOSIT_WITH_WITHDRAWALS_1))
+                .thenReturn(TIME_DEPOSIT_RESPONSE_1);
+
+        String expectedResponseAsJson = objectMapper.writeValueAsString(TIME_DEPOSIT_RESPONSE_1);
+
+        this.mockMvc.perform(patch("/deposits/1")
+                        .content(patchRequestBody)
+                        .contentType("application/json-patch+json"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(expectedResponseAsJson));
+    }
+
+    @Test
+    void updateBalanceOnTimeDeposit_timeDepositNotFound_shouldReturn404StatusCode() throws Exception {
+
+        String patchRequestBody = """
+                   [{
+                         "op":"replace",
+                         "path":"/balance",
+                         "value":"1500"
+                     }]
+                """;
+
+        when(timeDepositService.update(eq(1), any(JsonPatch.class)))
+                .thenThrow(TimeDepositNotFoundException.class);
+
+        this.mockMvc.perform(patch("/deposits/1")
+                        .content(patchRequestBody)
+                        .contentType("application/json-patch+json"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void updateBalanceOnTimeDeposit_exceptionDuringProcessing_shouldReturn500InternalServerError() throws Exception {
+
+        String patchRequestBody = """
+                   [{
+                         "op":"replace",
+                         "path":"/balance",
+                         "value":"1500"
+                     }]
+                """;
+
+        when(timeDepositService.update(eq(1), any(JsonPatch.class)))
+                .thenThrow(RuntimeException.class);
+
+        this.mockMvc.perform(patch("/deposits/1")
+                        .content(patchRequestBody)
+                        .contentType("application/json-patch+json"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
 }

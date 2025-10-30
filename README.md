@@ -79,8 +79,14 @@ mvn spring-boot:run
     - JDBC url: dbc:h2:mem:testdb
     - Username: sa
     - Password: sa
-- Example of how to call the endpoints on local, either in the browser, Bruno tool, etc.:
+- Example of how to call the endpoints on local, either in the browser, Bruno API tool, etc.:
   - GET http://localhost:8080/deposits
+  - PATCH http://localhost:8080/deposits/{deposit_id}
+    - if we want to update the balance to be the 1500, then the body of the request can be a json like:
+      - [
+        {"op":"replace","path":"/balance","value":"1500"}
+        ]'
+    - the type of request content is 'application/json-patch+json'
 - In order to run the tests from the command line, run:
 "mvn clean verify" or "mvn clean install" 
 - In order to start the Spring Boot application on the local, run:

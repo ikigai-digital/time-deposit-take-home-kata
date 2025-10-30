@@ -15,4 +15,11 @@ public class GlobalControllerExceptionHandler {
                 exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
+
+    @ExceptionHandler(TimeDepositNotFoundException.class)
+    public ResponseEntity<ErrorResponse> notFound(TimeDepositNotFoundException exception) {
+        return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+                exception.getMessage()), HttpStatus.NOT_FOUND);
+
+    }
 }
