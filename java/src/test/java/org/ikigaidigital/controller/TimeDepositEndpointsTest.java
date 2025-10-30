@@ -72,5 +72,4 @@ public class TimeDepositEndpointsTest {
         assertThat(firstWithdrawalForSecondTimeDeposit.getDate().getMonthValue()).isEqualTo(6);
         assertThat(firstWithdrawalForSecondTimeDeposit.getDate().getDayOfMonth()).isEqualTo(25);
     }
-
 }
