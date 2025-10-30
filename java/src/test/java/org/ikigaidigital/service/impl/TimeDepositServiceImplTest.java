@@ -1,9 +1,5 @@
 package org.ikigaidigital.service.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonpatch.JsonPatch;
-import org.ikigaidigital.entity.TimeDepositEntity;
 import org.ikigaidigital.exception.InternalServerErrorException;
 import org.ikigaidigital.exception.TimeDepositNotFoundException;
 import org.ikigaidigital.mapper.TimeDepositWithWithdrawalsMapper;
@@ -17,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -24,7 +21,6 @@ import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_ENTITY_1;
 import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_ENTITY_2;
 import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_WITH_WITHDRAWALS_1;
 import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_WITH_WITHDRAWALS_2;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,21 +32,12 @@ class TimeDepositServiceImplTest {
     @Mock
     private TimeDepositRepository timeDepositRepository;
 
-    @Mock
-    private ObjectMapper objectMapper;
-
-    @Mock
-    private JsonPatch patchJson;
-
-    @Mock
-    private JsonNode jsonNode;
-
     private TimeDepositService timeDepositService;
 
     @BeforeEach
     void setUp() {
         timeDepositService
-                = new TimeDepositServiceImpl(timeDepositRepository, timeDepositWithWithdrawalsMapper, objectMapper);
+                = new TimeDepositServiceImpl(timeDepositRepository, timeDepositWithWithdrawalsMapper);
     }
 
     @Test
@@ -87,19 +74,15 @@ class TimeDepositServiceImplTest {
     }
 
     @Test
-    void update_successfully() throws Exception {
+    void update_successfully() {
 
         when(timeDepositRepository.findById(1))
                 .thenReturn(java.util.Optional.of(TIME_DEPOSIT_ENTITY_1));
-        when(objectMapper.convertValue(TIME_DEPOSIT_ENTITY_1, JsonNode.class)).thenReturn(jsonNode);
-        when(patchJson.apply(any(JsonNode.class))).thenReturn(jsonNode);
-        when(objectMapper.treeToValue(jsonNode, TimeDepositEntity.class)).thenReturn(TIME_DEPOSIT_ENTITY_1);
         when(timeDepositRepository.saveAndFlush(TIME_DEPOSIT_ENTITY_1)).thenReturn(TIME_DEPOSIT_ENTITY_1);
         when(timeDepositWithWithdrawalsMapper.map(TIME_DEPOSIT_ENTITY_1)).thenReturn(TIME_DEPOSIT_WITH_WITHDRAWALS_1);
 
-        TimeDepositWithWithdrawals actualTimeDepositWithWithdrawals = timeDepositService.update(1, patchJson);
-
-        assertThat(actualTimeDepositWithWithdrawals).isEqualTo(TIME_DEPOSIT_WITH_WITHDRAWALS_1);
+        TimeDepositWithWithdrawals actual = timeDepositService.update(1, Map.of("balance", 1500.60));
+        assertThat(actual).isEqualTo(TIME_DEPOSIT_WITH_WITHDRAWALS_1);
     }
 
     @Test
@@ -107,7 +90,7 @@ class TimeDepositServiceImplTest {
 
         when(timeDepositRepository.findById(1)).thenThrow(new RuntimeException("test_error"));
 
-        assertThatThrownBy(() -> timeDepositService.update(1, patchJson))
+        assertThatThrownBy(() -> timeDepositService.update(1, Map.of("balance", 1500.60)))
                 .isExactlyInstanceOf(TimeDepositNotFoundException.class)
                 .hasMessage("Time deposit with id: 1 not found");
     }
@@ -117,7 +100,7 @@ class TimeDepositServiceImplTest {
 
         when(timeDepositRepository.findById(1)).thenReturn(java.util.Optional.empty());
 
-        assertThatThrownBy(() -> timeDepositService.update(1, patchJson))
+        assertThatThrownBy(() -> timeDepositService.update(1, Map.of("balance", 1500.60)))
                 .isExactlyInstanceOf(TimeDepositNotFoundException.class)
                 .hasMessage("Time deposit with id: 1 not found");
     }
@@ -127,12 +110,9 @@ class TimeDepositServiceImplTest {
 
         when(timeDepositRepository.findById(1))
                 .thenReturn(java.util.Optional.of(TIME_DEPOSIT_ENTITY_1));
-        when(objectMapper.convertValue(TIME_DEPOSIT_ENTITY_1, JsonNode.class)).thenReturn(jsonNode);
-        when(patchJson.apply(any(JsonNode.class))).thenReturn(jsonNode);
-        when(objectMapper.treeToValue(jsonNode, TimeDepositEntity.class)).thenReturn(TIME_DEPOSIT_ENTITY_1);
         when(timeDepositRepository.saveAndFlush(TIME_DEPOSIT_ENTITY_1)).thenThrow(new RuntimeException("test_error"));
 
-        assertThatThrownBy(() -> timeDepositService.update(1, patchJson))
+        assertThatThrownBy(() -> timeDepositService.update(1, Map.of("balance", 1500.60)))
                 .isExactlyInstanceOf(InternalServerErrorException.class)
                 .hasMessage("Error while updating time deposit with id: 1");
     }

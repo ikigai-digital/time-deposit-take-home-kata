@@ -83,13 +83,36 @@ mvn spring-boot:run
   - GET http://localhost:8080/deposits
   - PATCH http://localhost:8080/deposits/{deposit_id}
     - if we want to update the balance to be the 1500, then the body of the request can be a json like:
-      - [
-        {"op":"replace","path":"/balance","value":"1500"}
-        ]'
-    - the type of request content is 'application/json-patch+json'
+        {"balance": 1500}
+      - the type of request content is 'application/json'
 - In order to run the tests from the command line, run:
 "mvn clean verify" or "mvn clean install" 
 - In order to start the Spring Boot application on the local, run:
 mvn spring-boot:run
 - Test data will be initialised in the database by the script in /resources/data.sql,
 which will automatically be picked up by Spring Boot application
+
+- If you want to run the application on local and test the endpoints you can:
+1) start the application with
+mvn spring-boot:run
+2) use H2 DB console in the browser at: http://localhost:8080/h2-console 
+- use:
+    - Driver Class: org.h2.Driver
+    - JDBC url: dbc:h2:mem:testdb
+    - Username: sa
+    - Password: sa
+3) populate some data in the DB table using the SQL editor provided. For example use:
+   INSERT INTO TIMEDEPOSITS (id, planType, days, balance) VALUES (100, 'PREMIUM', 365, 1250);
+   INSERT INTO TIMEDEPOSITS (id, planType, days, balance) VALUES (200, 'STUDENT', 730, 5000);
+   INSERT INTO WITHDRAWALS (id, timeDepositId, amount, date) VALUES (1, 100, 10, '2025-09-01 12:00:00 UTC');
+   INSERT INTO WITHDRAWALS (id, timeDepositId, amount, date) VALUES (2, 100, 20, '2025-10-01 12:00:00 UTC');
+   INSERT INTO WITHDRAWALS (id, timeDepositId, amount, date) VALUES (3, 200, 20, '2024-06-25 12:00:00 UTC');
+4) Use Bruno or other tool for calling the endpoints:
+example call:
+
+GET http://localhost:8080/deposits
+The response should contain the time deposits data inserted at that time in the DB.
+
+PATCH http://localhost:8080/deposits/{deposit_id}
+with body:
+{"balance": 1500}

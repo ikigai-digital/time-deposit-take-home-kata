@@ -1,7 +1,6 @@
 package org.ikigaidigital.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonpatch.JsonPatch;
 import org.ikigaidigital.exception.InternalServerErrorException;
 import org.ikigaidigital.exception.TimeDepositNotFoundException;
 import org.ikigaidigital.mapper.TimeDepositResponseMapper;
@@ -15,20 +14,20 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_RESPONSE_1;
 import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_RESPONSE_2;
 import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_WITH_WITHDRAWALS_1;
 import static org.ikigaidigital.util.TestUtil.TIME_DEPOSIT_WITH_WITHDRAWALS_2;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @WebMvcTest
 class TimeDepositControllerTest {
@@ -118,14 +117,12 @@ class TimeDepositControllerTest {
     void updateBalanceOnTimeDeposit() throws Exception {
 
         String patchRequestBody = """
-                   [{
-                         "op":"replace",
-                         "path":"/balance",
-                         "value":"1500"
-                     }]
+                   {
+                     "balance": 1500.6
+                   }
                 """;
 
-        when(timeDepositService.update(eq(1), any(JsonPatch.class)))
+        when(timeDepositService.update(1, Map.of("balance", 1500.6)))
                 .thenReturn(TIME_DEPOSIT_WITH_WITHDRAWALS_1);
         when(timeDepositResponseMapper.map(TIME_DEPOSIT_WITH_WITHDRAWALS_1))
                 .thenReturn(TIME_DEPOSIT_RESPONSE_1);
@@ -134,9 +131,9 @@ class TimeDepositControllerTest {
 
         this.mockMvc.perform(patch("/deposits/1")
                         .content(patchRequestBody)
-                        .contentType("application/json-patch+json"))
+                        .contentType(APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(APPLICATION_JSON_VALUE))
                 .andExpect(content().json(expectedResponseAsJson));
     }
 
@@ -144,41 +141,37 @@ class TimeDepositControllerTest {
     void updateBalanceOnTimeDeposit_timeDepositNotFound_shouldReturn404StatusCode() throws Exception {
 
         String patchRequestBody = """
-                   [{
-                         "op":"replace",
-                         "path":"/balance",
-                         "value":"1500"
-                     }]
+                   {
+                     "balance": 1500.6
+                   }
                 """;
 
-        when(timeDepositService.update(eq(1), any(JsonPatch.class)))
+        when(timeDepositService.update(1, Map.of("balance", 1500.6)))
                 .thenThrow(TimeDepositNotFoundException.class);
 
         this.mockMvc.perform(patch("/deposits/1")
                         .content(patchRequestBody)
-                        .contentType("application/json-patch+json"))
+                        .contentType(APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(APPLICATION_JSON_VALUE));
     }
 
     @Test
     void updateBalanceOnTimeDeposit_exceptionDuringProcessing_shouldReturn500InternalServerError() throws Exception {
 
         String patchRequestBody = """
-                   [{
-                         "op":"replace",
-                         "path":"/balance",
-                         "value":"1500"
-                     }]
+                   {
+                     "balance": 1500.6
+                   }
                 """;
 
-        when(timeDepositService.update(eq(1), any(JsonPatch.class)))
-                .thenThrow(RuntimeException.class);
+        when(timeDepositService.update(1, Map.of("balance", 1500.6)))
+                .thenThrow(InternalServerErrorException.class);
 
         this.mockMvc.perform(patch("/deposits/1")
                         .content(patchRequestBody)
-                        .contentType("application/json-patch+json"))
+                        .contentType(APPLICATION_JSON_VALUE))
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(APPLICATION_JSON_VALUE));
     }
 }

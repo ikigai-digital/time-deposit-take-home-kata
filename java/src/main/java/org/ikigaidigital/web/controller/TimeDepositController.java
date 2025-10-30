@@ -1,6 +1,5 @@
 package org.ikigaidigital.web.controller;
 
-import com.github.fge.jsonpatch.JsonPatch;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ikigaidigital.exception.InternalServerErrorException;
@@ -9,6 +8,7 @@ import org.ikigaidigital.mapper.TimeDepositResponseMapper;
 import org.ikigaidigital.model.TimeDepositWithWithdrawals;
 import org.ikigaidigital.service.TimeDepositService;
 import org.ikigaidigital.web.domain.response.TimeDepositResponse;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
@@ -56,9 +57,9 @@ public class TimeDepositController {
         return response;
     }
 
-    @PatchMapping(path = "/deposits/{id}", consumes = "application/json-patch+json")
+    @PatchMapping(path = "/deposits/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public TimeDepositResponse updateTimeDeposit(@PathVariable int id,
-                                                 @RequestBody JsonPatch updates) {
+                                                 @RequestBody Map<String, Object> updates) {
 
         try {
             TimeDepositWithWithdrawals updatedTimeDeposit = timeDepositService.update(id, updates);
