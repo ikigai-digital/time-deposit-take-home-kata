@@ -4,7 +4,9 @@ target/
 bin/
 obj/
 __pycache__/
-.vs/
+.vs
 .idea/
 package-lock.json
-.vscode/
+.vscode
+
+**/*.iml

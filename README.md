@@ -62,3 +62,20 @@ A junior developer implemented domain logic for a time deposit system but did no
 ### Submission Instructions
 - Provide clear instructions on how to trigger the endpoints using the Swagger contract.
 - Email the link to your public GitHub repository.
+
+
+### Local development
+- For local development the DB used: H2 in-memory
+- In order to easy check the DB tables, you can use the H2 console in the browser at:
+  http://localhost:8080/h2-console/
+  - use:
+    - Driver Class: org.h2.Driver
+    - JDBC url: dbc:h2:mem:testdb
+    - Username: sa
+    - Password: sa
+- Example of how to call the endpoints on local, either in the browser, Bruno tool, etc.:
+  - GET http://localhost:8080/deposits
+- In order to run the tests from the command line, run:
+"mvn clean verify" or "mvn clean install" 
+- In order to start the Spring Boot application on the local, run:
+mvn spring-boot:run
