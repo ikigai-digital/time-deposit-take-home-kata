@@ -6,23 +6,20 @@ import org.ikigaidigital.model.PlanType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_CLASS;
 
 
 @DataJpaTest
-@Sql(scripts = {"/db/initialise_db.sql"}, executionPhase = BEFORE_TEST_CLASS)
 class TimeDepositRepositoryTest {
 
     @Autowired
     private TimeDepositRepository timeDepositRepository;
 
     @Test
-    void getTimeDeposits_empty() {
+    void getTimeDeposits() {
 
         List<TimeDepositEntity> actualTimeDeposits = timeDepositRepository.findAll();
 

@@ -64,8 +64,14 @@ A junior developer implemented domain logic for a time deposit system but did no
 - Email the link to your public GitHub repository.
 
 
+### How to check the Swagger OPENAPI documentation for the endpoints
+- start Spring Boot application by running:
+mvn spring-boot:run
+- the Swagger documentation can be checked in the browser at:
+  - http://localhost:8080/v3/api-docs
+
 ### Local development
-- For local development the DB used: H2 in-memory
+- For local development the DB used is: H2 in-memory
 - In order to easy check the DB tables, you can use the H2 console in the browser at:
   http://localhost:8080/h2-console/
   - use:
@@ -79,3 +85,5 @@ A junior developer implemented domain logic for a time deposit system but did no
 "mvn clean verify" or "mvn clean install" 
 - In order to start the Spring Boot application on the local, run:
 mvn spring-boot:run
+- Test data will be initialised in the database by the script in /resources/data.sql,
+which will automatically be picked up by Spring Boot application
