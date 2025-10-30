@@ -48,6 +48,8 @@ public final class TestUtil {
     public final static WithdrawalEntity WITHDRAWAL_ENTITY_1 = new WithdrawalEntity(1, 10d, NOW, null);
     public final static TimeDepositEntity TIME_DEPOSIT_ENTITY_1
             = new TimeDepositEntity(1, PlanType.BASIC.name(), 100d, 365, List.of(WITHDRAWAL_ENTITY_1));
+    public final static TimeDepositEntity TIME_DEPOSIT_ENTITY_2
+            = new TimeDepositEntity(2, PlanType.PREMIUM.name(), 200d, 770, List.of(WITHDRAWAL_ENTITY_1));
 
     static {
         WITHDRAWAL_ENTITY_1.setTimeDeposit(TIME_DEPOSIT_ENTITY_1);

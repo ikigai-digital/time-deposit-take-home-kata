@@ -23,7 +23,7 @@ public class TimeDepositWithWithdrawalsMapperImpl implements TimeDepositWithWith
         List<Withdrawal> widthdrawals = timeDepositEntity.getWithdrawals().stream()
                 .map(withdrawalMapper::map).collect(Collectors.toList());
 
-        return new TimeDepositWithWithdrawals(timeDepositEntity.getId(), timeDepositEntity.getPlanType()
-                , timeDepositEntity.getBalance(), timeDepositEntity.getDays(), widthdrawals);
+        return new TimeDepositWithWithdrawals(timeDepositEntity.getId(), timeDepositEntity.getPlanType(),
+                timeDepositEntity.getBalance(), timeDepositEntity.getDays(), widthdrawals);
     }
 }
