@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using NUnit.Framework;
 using time_deposit_kata_net;
 
-namespace time_deposit_kata_test
+namespace time_deposit_kata_test.Unit
 {
-    public class Tests
+    public class TimeDepositCalculatorTest
     {
         [Test]
         public void UpdateBalance_Test()
