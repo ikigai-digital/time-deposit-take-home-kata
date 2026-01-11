@@ -11,3 +11,4 @@ package-lock.json
 *.db
 *.db-shm
 *.db-wal
+SOLID_EVALUATION.md
