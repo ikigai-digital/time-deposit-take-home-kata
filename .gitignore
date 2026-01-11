@@ -8,3 +8,6 @@ __pycache__/
 .idea/
 package-lock.json
 .vscode/
+*.db
+*.db-shm
+*.db-wal
