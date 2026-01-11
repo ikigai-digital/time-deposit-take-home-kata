@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using time_deposit_kata_net;
 using time_deposit_kata_net.Application;
 using time_deposit_kata_net.Infrastructure;
 
