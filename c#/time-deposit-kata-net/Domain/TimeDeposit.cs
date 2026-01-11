@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 namespace time_deposit_kata_net
 {
     public class TimeDeposit
@@ -9,4 +9,3 @@ namespace time_deposit_kata_net
         public int Days { get; set; }
     }
 }
-

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace time_deposit_kata_net
@@ -38,4 +38,3 @@ namespace time_deposit_kata_net
         }
     }
 }
-
