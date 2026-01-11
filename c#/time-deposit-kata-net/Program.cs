@@ -14,10 +14,10 @@ var environment = builder.Environment.EnvironmentName;
 if (environment != "Testing")
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-        ?? "Data Source=timedeposits.db";
+        ?? "Host=localhost;Database=timedeposits;Username=postgres;Password=postgres";
 
     builder.Services.AddDbContext<TimeDepositDbContext>(options =>
-        options.UseSqlite(connectionString));
+        options.UseNpgsql(connectionString));
 }
 
 builder.Services.AddScoped<ITimeDepositRepository, TimeDepositRepository>();
