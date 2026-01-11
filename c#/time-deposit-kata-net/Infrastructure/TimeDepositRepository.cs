@@ -19,6 +19,13 @@ namespace time_deposit_kata_net.Infrastructure
             return await _context.TimeDeposits.ToListAsync();
         }
 
+        public async Task<List<TimeDeposit>> GetAllWithWithdrawalsAsync()
+        {
+            return await _context.TimeDeposits
+                .Include(t => t.Withdrawals)
+                .ToListAsync();
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace time_deposit_kata_net.Application
@@ -18,6 +19,11 @@ namespace time_deposit_kata_net.Application
             var deposits = await _repository.GetAllAsync();
             _calculator.UpdateBalance(deposits);
             await _repository.SaveChangesAsync();
+        }
+
+        public async Task<List<TimeDeposit>> GetAllTimeDepositsAsync()
+        {
+            return await _repository.GetAllWithWithdrawalsAsync();
         }
     }
 }
