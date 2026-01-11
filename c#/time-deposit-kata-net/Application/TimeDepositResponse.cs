@@ -1,15 +1,15 @@
-namespace time_deposit_kata_net.Api
+namespace time_deposit_kata_net.Application
 {
-    public class TimeDepositDto
+    public class TimeDepositResponse
     {
         public int Id { get; set; }
         public string PlanType { get; set; } = string.Empty;
         public double Balance { get; set; }
         public int Days { get; set; }
-        public List<WithdrawalDto> Withdrawals { get; set; } = new List<WithdrawalDto>();
+        public List<WithdrawalResponse> Withdrawals { get; set; } = new List<WithdrawalResponse>();
     }
 
-    public class WithdrawalDto
+    public class WithdrawalResponse
     {
         public int Id { get; set; }
         public double Amount { get; set; }

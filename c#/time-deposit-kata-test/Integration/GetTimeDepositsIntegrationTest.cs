@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Testcontainers.PostgreSql;
 using time_deposit_kata_net;
-using time_deposit_kata_net.Api;
+using time_deposit_kata_net.Application;
 using time_deposit_kata_net.Infrastructure;
 
 namespace time_deposit_kata_test.Integration
@@ -103,7 +103,7 @@ namespace time_deposit_kata_test.Integration
 
             // Assert
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            var deposits = await response.Content.ReadFromJsonAsync<List<TimeDepositDto>>();
+            var deposits = await response.Content.ReadFromJsonAsync<List<TimeDepositResponse>>();
             Assert.IsNotNull(deposits);
             Assert.AreEqual(0, deposits!.Count);
         }
@@ -128,7 +128,7 @@ namespace time_deposit_kata_test.Integration
 
             // Assert
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            var deposits = await response.Content.ReadFromJsonAsync<List<TimeDepositDto>>();
+            var deposits = await response.Content.ReadFromJsonAsync<List<TimeDepositResponse>>();
             
             Assert.IsNotNull(deposits);
             Assert.AreEqual(3, deposits!.Count);
@@ -167,7 +167,7 @@ namespace time_deposit_kata_test.Integration
 
             // Assert
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            var deposits = await response.Content.ReadFromJsonAsync<List<TimeDepositDto>>();
+            var deposits = await response.Content.ReadFromJsonAsync<List<TimeDepositResponse>>();
             
             Assert.IsNotNull(deposits);
             Assert.AreEqual(1, deposits!.Count);
@@ -203,7 +203,7 @@ namespace time_deposit_kata_test.Integration
 
             // Assert
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            var deposits = await response.Content.ReadFromJsonAsync<List<TimeDepositDto>>();
+            var deposits = await response.Content.ReadFromJsonAsync<List<TimeDepositResponse>>();
             
             Assert.IsNotNull(deposits);
             var dto = deposits![0];

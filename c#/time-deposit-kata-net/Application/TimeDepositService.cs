@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace time_deposit_kata_net.Application
@@ -21,9 +22,23 @@ namespace time_deposit_kata_net.Application
             await _repository.SaveChangesAsync();
         }
 
-        public async Task<List<TimeDeposit>> GetAllTimeDepositsAsync()
+        public async Task<List<TimeDepositResponse>> GetAllTimeDepositsAsync()
         {
-            return await _repository.GetAllWithWithdrawalsAsync();
+            var deposits = await _repository.GetAllWithWithdrawalsAsync();
+            
+            return deposits.Select(d => new TimeDepositResponse
+            {
+                Id = d.Id,
+                PlanType = d.PlanType,
+                Balance = d.Balance,
+                Days = d.Days,
+                Withdrawals = d.Withdrawals.Select(w => new WithdrawalResponse
+                {
+                    Id = w.Id,
+                    Amount = w.Amount,
+                    Date = w.Date
+                }).ToList()
+            }).ToList();
         }
     }
 }

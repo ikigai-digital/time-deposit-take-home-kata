@@ -20,25 +20,10 @@ namespace time_deposit_kata_net.Api
         /// </summary>
         /// <returns>List of time deposits</returns>
         [HttpGet]
-        public async Task<ActionResult<List<TimeDepositDto>>> GetAll()
+        public async Task<ActionResult<List<TimeDepositResponse>>> GetAll()
         {
             var deposits = await _timeDepositService.GetAllTimeDepositsAsync();
-            
-            var result = deposits.Select(d => new TimeDepositDto
-            {
-                Id = d.Id,
-                PlanType = d.PlanType,
-                Balance = d.Balance,
-                Days = d.Days,
-                Withdrawals = d.Withdrawals.Select(w => new WithdrawalDto
-                {
-                    Id = w.Id,
-                    Amount = w.Amount,
-                    Date = w.Date
-                }).ToList()
-            }).ToList();
-
-            return Ok(result);
+            return Ok(deposits);
         }
 
         /// <summary>
