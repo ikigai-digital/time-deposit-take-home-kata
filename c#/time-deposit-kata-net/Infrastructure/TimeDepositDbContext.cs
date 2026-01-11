@@ -9,16 +9,14 @@ namespace time_deposit_kata_net.Infrastructure
         }
 
         public DbSet<TimeDeposit> TimeDeposits { get; set; }
+        public DbSet<Withdrawal> Withdrawals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TimeDeposit>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.PlanType).IsRequired();
-                entity.Property(e => e.Days).IsRequired();
-                entity.Property(e => e.Balance).IsRequired();
-            });
+            modelBuilder.Entity<TimeDeposit>()
+                .HasMany(t => t.Withdrawals)
+                .WithOne(w => w.TimeDeposit)
+                .HasForeignKey(w => w.TimeDepositId);
         }
     }
 }
