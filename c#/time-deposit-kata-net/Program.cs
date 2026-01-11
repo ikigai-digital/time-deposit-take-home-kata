@@ -36,16 +36,17 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-// Ensure database is created - only when not in test mode
+// Apply database migrations and seed data - only when not in test mode
 if (!app.Environment.IsEnvironment("Testing"))
 {
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<TimeDepositDbContext>();
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
+        await DatabaseSeeder.SeedAsync(context);
     }
 }
 
-app.Run();
+await app.RunAsync();
 
 public partial class Program { }
