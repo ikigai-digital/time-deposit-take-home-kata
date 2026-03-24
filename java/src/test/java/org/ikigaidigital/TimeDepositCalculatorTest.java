@@ -3,6 +3,7 @@ package org.ikigaidigital;
 import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
+import org.ikigaidigital.domain.service.InterestCalculationStrategyFactory;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -19,7 +20,8 @@ public class TimeDepositCalculatorTest {
         "unknown, 1234.56, 33, 1234.56"   // No interest due to an unknown plan type
     })
     public void updateBalance_Test(String planType, double balance, int days, double expectedBalance) {
-        TimeDepositCalculator calc = new TimeDepositCalculator();
+        InterestCalculationStrategyFactory strategyFactory = new InterestCalculationStrategyFactory();
+        TimeDepositCalculator calc = new TimeDepositCalculator(strategyFactory);
         TimeDeposit deposit = new TimeDeposit(1, planType, balance, days);
 
         calc.updateBalance(Collections.singletonList(deposit));
