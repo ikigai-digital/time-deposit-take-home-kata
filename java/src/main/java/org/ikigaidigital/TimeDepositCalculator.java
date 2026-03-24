@@ -5,7 +5,9 @@ import java.math.RoundingMode;
 import java.util.List;
 import org.ikigaidigital.domain.service.InterestCalculationStrategy;
 import org.ikigaidigital.domain.service.InterestCalculationStrategyFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TimeDepositCalculator {
     private final InterestCalculationStrategyFactory strategyFactory;
 

@@ -4,7 +4,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InterestCalculationStrategyFactory {
     private final Map<String, InterestCalculationStrategy> strategiesMap;
     private final InterestCalculationStrategy fallBackStrategy = new FallBackPlanStrategy();
