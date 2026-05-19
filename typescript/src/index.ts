@@ -1,4 +1,4 @@
-import { TimeDeposit } from './TimeDeposit'
+import { TimeDeposit } from './domain/TimeDeposit'
 import { TimeDepositCalculator } from './TimeDepositCalculator'
 
 const calc = new TimeDepositCalculator()
