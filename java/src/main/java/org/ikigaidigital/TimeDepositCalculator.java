@@ -1,30 +1,43 @@
 package org.ikigaidigital;
 
+import org.ikigaidigital.domain.BasicInterestPolicy;
+import org.ikigaidigital.domain.InterestPolicy;
+import org.ikigaidigital.domain.PremiumInterestPolicy;
+import org.ikigaidigital.domain.StudentInterestPolicy;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
 public class TimeDepositCalculator {
-    public void updateBalance(List<TimeDeposit> xs) {
-        for (int i = 0; i < xs.size(); i++) {
-            double interest = 0;
+    private final List<InterestPolicy> policies;
 
-            if (xs.get(i).getDays() > 30) {
-                if (xs.get(i).getPlanType().equals("student")) {
-                    if (xs.get(i).getDays() < 366) {
-                        interest += xs.get(i).getBalance() * 0.03 / 12;
-                    }
-                } else if (xs.get(i).getPlanType().equals("premium")) {
-                    if (xs.get(i).getDays() > 45) {
-                        interest += xs.get(i).getBalance() * 0.05 / 12;
-                    }
-                } else if (xs.get(i).getPlanType().equals("basic")) {
-                    interest += xs.get(i).getBalance() * 0.01 / 12;
+    public TimeDepositCalculator() {
+        // Preserve no-argument construction with the three standard plan rules.
+        this(List.of(new BasicInterestPolicy(), new StudentInterestPolicy(), new PremiumInterestPolicy()));
+    }
+
+    public TimeDepositCalculator(List<InterestPolicy> policies) {
+        // Snapshot the supplied rules so later list changes do not alter this calculator.
+        this.policies = List.copyOf(policies);
+    }
+
+    public void updateBalance(List<TimeDeposit> deposits) {
+        for (TimeDeposit deposit : deposits) {
+            // Unknown plans retain zero interest; matching remains case-sensitive.
+            double monthlyInterest = 0;
+            for (InterestPolicy policy : policies) {
+                if (deposit.getPlanType().equals(policy.getPlanType())) {
+                    monthlyInterest += policy.calculateInterest(deposit);
+                    break;
                 }
             }
 
-            double a2d = xs.get(i).getBalance() + (new BigDecimal(interest).setScale(2, RoundingMode.HALF_UP)).doubleValue();
-            xs.get(i).setBalance(a2d);
+            // Preserve BigDecimal(double) and HALF_UP: changing the conversion changes edge cases.
+            double roundedInterest = new BigDecimal(monthlyInterest).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            // Round only interest, then update the original object without advancing its days.
+            double updatedBalance = deposit.getBalance() + roundedInterest;
+            deposit.setBalance(updatedBalance);
         }
     }
 }
