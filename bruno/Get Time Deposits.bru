@@ -1,0 +1,35 @@
+meta {
+  name: Get Time Deposits
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/time-deposits
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+tests {
+  test("Returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Returns deposits with withdrawal arrays", function () {
+    const deposits = res.getBody();
+    expect(deposits).to.be.an("array");
+    for (const deposit of deposits) {
+      expect(deposit).to.have.all.keys("id", "planType", "balance", "days", "withdrawals");
+      expect(deposit.withdrawals).to.be.an("array");
+    }
+  });
+}
+
+docs {
+  Retrieves all deposits and their stored withdrawal history without updating balances.
+  A database without sample data returns an empty array. Run this request again after updating balances.
+}

@@ -1,0 +1,27 @@
+meta {
+  name: Update Balances
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/time-deposits/update-balances
+  body: none
+  auth: none
+}
+
+tests {
+  test("Returns 204", function () {
+    expect(res.getStatus()).to.equal(204);
+  });
+
+  test("Returns an empty response body", function () {
+    expect(res.getBody()).to.equal("");
+  });
+}
+
+docs {
+  Applies one interest calculation to every deposit and persists the updated balances.
+  No request body is needed. Repeating this request can add interest again.
+  Days and withdrawal history remain unchanged. Run Get Time Deposits afterward to inspect the result.
+}
