@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: time-deposit-kata
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/time_deposits}
+    username: ${DB_USERNAME:time_deposits}
+    password: ${DB_PASSWORD:time_deposits}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+springdoc:
+  swagger-ui:
+    url: /openapi/time-deposits.yaml
