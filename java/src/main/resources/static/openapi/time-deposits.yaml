@@ -1,0 +1,87 @@
+openapi: 3.0.3
+info:
+  title: XA Bank Time Deposit API
+  description: Retrieves time deposits and applies monthly interest to their balances.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local environment
+tags:
+  - name: TimeDeposits
+    description: Time deposit plans and their balances
+paths:
+  /time-deposits:
+    get:
+      tags:
+        - TimeDeposits
+      operationId: getAllTimeDeposits
+      summary: Get all time deposits
+      description: Returns every time deposit together with its withdrawals.
+      responses:
+        '200':
+          description: All time deposits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeDeposit'
+  /time-deposits/balance-updates:
+    post:
+      tags:
+        - TimeDeposits
+      operationId: updateAllBalances
+      summary: Update balances of all time deposits
+      description: >-
+        Applies one month of interest to the balance of every time deposit according to its plan type.
+        Each call adds another month of interest, so the operation is not idempotent.
+      responses:
+        '204':
+          description: Balances of all time deposits were updated
+components:
+  schemas:
+    TimeDeposit:
+      type: object
+      required:
+        - id
+        - planType
+        - balance
+        - days
+        - withdrawals
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        planType:
+          type: string
+          example: basic
+        balance:
+          type: number
+          example: 10008.33
+        days:
+          type: integer
+          format: int32
+          example: 45
+        withdrawals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Withdrawal'
+    Withdrawal:
+      type: object
+      required:
+        - id
+        - amount
+        - date
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        amount:
+          type: number
+          example: 500.00
+        date:
+          type: string
+          format: date
+          example: '2026-10-01'
