@@ -1,0 +1,10 @@
+name: time-deposit-kata
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: time_deposits
+      POSTGRES_USER: time_deposits
+      POSTGRES_PASSWORD: time_deposits
+    ports:
+      - "5432"
