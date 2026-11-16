@@ -1,5 +1,7 @@
 # Time Deposit Refactoring Kata - Take-Home Assignment
 
+> **Solution:** implemented in Java, see [java/README.md](java/README.md) for how to run it, how to trigger the endpoints with Swagger, the architecture and the assumptions. The AI-assisted development setup is described in [AI_DEVELOPMENT.md](AI_DEVELOPMENT.md).
+
 ## XA Bank Time Deposit
 
 ### Context
