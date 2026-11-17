@@ -1,4 +1,4 @@
-package org.ikigaidigital;
+package org.ikigaidigital.timedeposit.timedeposit.domain;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

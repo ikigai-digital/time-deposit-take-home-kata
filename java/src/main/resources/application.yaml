@@ -1,0 +1,8 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /time-deposit-service
+
+spring:
+  application:
+    name: time-deposit-service
