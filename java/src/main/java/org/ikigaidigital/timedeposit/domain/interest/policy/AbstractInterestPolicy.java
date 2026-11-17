@@ -1,7 +1,7 @@
-package org.ikigaidigital.timedeposit.timedeposit.domain.interest.policy;
+package org.ikigaidigital.timedeposit.domain.interest.policy;
 
 
-import org.ikigaidigital.timedeposit.timedeposit.domain.TimeDeposit;
+import org.ikigaidigital.timedeposit.domain.TimeDeposit;
 
 public abstract class AbstractInterestPolicy implements InterestPolicy {
 

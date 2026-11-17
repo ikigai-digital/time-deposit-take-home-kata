@@ -1,4 +1,4 @@
-package org.ikigaidigital.timedeposit.timedeposit.domain.interest;
+package org.ikigaidigital.timedeposit.domain.interest;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -8,11 +8,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import org.ikigaidigital.timedeposit.timedeposit.domain.TimeDeposit;
-import org.ikigaidigital.timedeposit.timedeposit.domain.interest.policy.BasicInterestPolicy;
-import org.ikigaidigital.timedeposit.timedeposit.domain.interest.policy.InterestPolicy;
-import org.ikigaidigital.timedeposit.timedeposit.domain.interest.policy.PremiumInterestPolicy;
-import org.ikigaidigital.timedeposit.timedeposit.domain.interest.policy.StudentInterestPolicy;
+import org.ikigaidigital.timedeposit.domain.TimeDeposit;
+import org.ikigaidigital.timedeposit.domain.interest.policy.BasicInterestPolicy;
+import org.ikigaidigital.timedeposit.domain.interest.policy.InterestPolicy;
+import org.ikigaidigital.timedeposit.domain.interest.policy.PremiumInterestPolicy;
+import org.ikigaidigital.timedeposit.domain.interest.policy.StudentInterestPolicy;
 
 
 public class InterestCalculatorImpl implements InterestCalculator {
