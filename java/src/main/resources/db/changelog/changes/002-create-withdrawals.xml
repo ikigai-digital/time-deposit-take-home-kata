@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="002_1-create-withdrawals" author="time-deposit-service">
+        <createTable schemaName="public" tableName="withdrawals" remarks="Withdrawals made from time deposits">
+            <column name="id" type="INT" remarks="Withdrawal identifier">
+                <constraints primaryKey="true" primaryKeyName="pk_withdrawals" nullable="false"/>
+            </column>
+            <column name="time_deposit_id" type="INT"
+                    remarks="Time deposit the withdrawal was made from (README column timeDepositId)">
+                <constraints nullable="false"
+                             foreignKeyName="fk_withdrawals_time_deposit"
+                             referencedTableSchemaName="public"
+                             referencedTableName="time_deposits"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="amount" type="DECIMAL(19,2)" remarks="Withdrawn amount">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="DATE" remarks="Date of the withdrawal">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

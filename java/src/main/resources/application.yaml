@@ -1,8 +1,14 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT}
   servlet:
     context-path: /time-deposit-service
 
 spring:
   application:
     name: time-deposit-service
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
