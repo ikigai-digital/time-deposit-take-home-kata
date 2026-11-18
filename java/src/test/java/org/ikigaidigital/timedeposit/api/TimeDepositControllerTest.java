@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 import javax.sql.DataSource;
 import org.assertj.core.api.WithAssertions;
 import org.ikigaidigital.timedeposit.TestcontainersConfiguration;
-import org.ikigaidigital.timedeposit.domain.TimeDeposit;
+import org.ikigaidigital.timedeposit.domain.model.TimeDeposit;
 import org.ikigaidigital.timedeposit.domain.TimeDepositCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

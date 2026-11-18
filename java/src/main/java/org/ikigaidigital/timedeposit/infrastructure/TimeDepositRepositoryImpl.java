@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
-import org.ikigaidigital.timedeposit.domain.TimeDeposit;
+import org.ikigaidigital.timedeposit.domain.model.TimeDeposit;
 import org.ikigaidigital.timedeposit.domain.TimeDepositRepository;
 import org.ikigaidigital.timedeposit.infrastructure.mapper.TimeDepositMapper;
 import org.springframework.stereotype.Component;

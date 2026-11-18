@@ -2,7 +2,7 @@ package org.ikigaidigital.timedeposit.infrastructure.mapper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.ikigaidigital.timedeposit.domain.TimeDeposit;
+import org.ikigaidigital.timedeposit.domain.model.TimeDeposit;
 import org.ikigaidigital.timedeposit.infrastructure.entity.TimeDepositEntity;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import org.ikigaidigital.timedeposit.domain.TimeDeposit;
+import org.ikigaidigital.timedeposit.domain.model.TimeDeposit;
 import org.ikigaidigital.timedeposit.domain.interest.policy.BasicInterestPolicy;
 import org.ikigaidigital.timedeposit.domain.interest.policy.InterestPolicy;
 import org.ikigaidigital.timedeposit.domain.interest.policy.PremiumInterestPolicy;

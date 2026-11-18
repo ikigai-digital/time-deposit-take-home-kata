@@ -9,6 +9,7 @@ import org.ikigaidigital.timedeposit.domain.interest.InterestCalculatorImpl;
 import org.ikigaidigital.timedeposit.domain.interest.policy.BasicInterestPolicy;
 import org.ikigaidigital.timedeposit.domain.interest.policy.PremiumInterestPolicy;
 import org.ikigaidigital.timedeposit.domain.interest.policy.StudentInterestPolicy;
+import org.ikigaidigital.timedeposit.domain.model.TimeDeposit;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
