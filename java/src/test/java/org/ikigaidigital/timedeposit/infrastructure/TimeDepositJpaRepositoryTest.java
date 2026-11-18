@@ -32,9 +32,6 @@ class TimeDepositJpaRepositoryTest implements WithAssertions {
   private TimeDepositJpaRepository timeDepositRepository;
 
   @Autowired
-  private WithdrawalJpaRepository withdrawalRepository;
-
-  @Autowired
   private TestEntityManager entityManager;
 
   @Test
@@ -152,7 +149,7 @@ class TimeDepositJpaRepositoryTest implements WithAssertions {
   void shouldRejectDeletingDepositWithWithdrawals() {
     // given
     TimeDepositEntity deposit = timeDepositRepository.saveAndFlush(deposit(1, BASIC, 45, "100.00"));
-    withdrawalRepository.saveAndFlush(
+    entityManager.persistAndFlush(
         new WithdrawalEntity(1, 1, new BigDecimal("10.00"), LocalDate.of(2026, 1, 15)));
 
     // when
