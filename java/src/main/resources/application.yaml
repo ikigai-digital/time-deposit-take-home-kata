@@ -10,6 +10,12 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: ${DB_BALANCE_UPDATE_CHUNK_SIZE:${balance-update.chunk-size}}  # one JDBC batch per chunk
+        order_updates: true
   liquibase:
     change-log: classpath:db/changelog/changelog-master.xml
   docker:
