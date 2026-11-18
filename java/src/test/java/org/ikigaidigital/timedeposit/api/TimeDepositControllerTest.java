@@ -34,6 +34,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 @Import(TestcontainersConfiguration.class)
 class TimeDepositControllerTest implements WithAssertions {
 
+  private static final String TIME_DEPOSITS_PATH = "/api/time-deposits";
   private static final String BALANCE_UPDATES_PATH = "/api/time-deposits/balance-updates";
   private static final Duration TIMEOUT = Duration.ofSeconds(30);
   private static final Pattern PROCESS_ID = Pattern.compile("\"processId\"\\s*:\\s*(\\d+)");
@@ -134,11 +135,115 @@ class TimeDepositControllerTest implements WithAssertions {
   }
 
 
-  private HttpResponse<String> postBalanceUpdate() throws Exception {
+  @Test
+  void shouldReturnFirstPageOfDepositsWithTheirWithdrawals() throws Exception {
+    // given
+    seedDepositsWithWithdrawals();
+
+    // when
+    HttpResponse<String> response = getTimeDeposits("?page=0&size=2");
+
+    // then
+    assertThat(response.statusCode()).isEqualTo(200);
+    assertThat(response.body())
+        .contains("\"page\":0", "\"size\":2", "\"totalElements\":3", "\"totalPages\":2")
+        .contains("""
+            {"id":1,"planType":"basic","balance":1000.00,"days":60,"withdrawals":[\
+            {"id":2,"amount":50.00,"date":"2026-01-10"},{"id":1,"amount":100.00,"date":"2026-02-01"}]}""")
+        .contains("""
+            {"id":2,"planType":"student","balance":2000.00,"days":100,"withdrawals":[]}""")
+        .doesNotContain("\"planType\":\"premium\"");
+  }
+
+  @Test
+  void shouldReturnLastPage() throws Exception {
+    // given
+    seedDepositsWithWithdrawals();
+
+    // when
+    HttpResponse<String> response = getTimeDeposits("?page=1&size=2");
+
+    // then
+    assertThat(response.statusCode()).isEqualTo(200);
+    assertThat(response.body())
+        .contains("\"page\":1", "\"totalElements\":3")
+        .contains("""
+            {"id":3,"planType":"premium","balance":3000.00,"days":90,"withdrawals":[\
+            {"id":3,"amount":300.00,"date":"2026-03-05"}]}""")
+        .doesNotContain("\"planType\":\"basic\"");
+  }
+
+  @Test
+  void shouldReturnEmptyPageBeyondLastPage() throws Exception {
+    // given
+    seedDepositsWithWithdrawals();
+
+    // when
+    HttpResponse<String> response = getTimeDeposits("?page=5&size=2");
+
+    // then
+    assertThat(response.statusCode()).isEqualTo(200);
+    assertThat(response.body()).contains("\"content\":[]", "\"totalElements\":3");
+  }
+
+  @Test
+  void shouldUseDefaultPagingWhenNoParametersGiven() throws Exception {
+    // given
+    seedDepositsWithWithdrawals();
+
+    // when
+    HttpResponse<String> response = getTimeDeposits("");
+
+    // then
+    assertThat(response.statusCode()).isEqualTo(200);
+    assertThat(response.body())
+        .contains("\"page\":" + "0", "\"size\":" + "100",
+            "\"totalElements\":3", "\"totalPages\":1");
+  }
+
+  @Test
+  void shouldReturnEmptyPageWhenThereAreNoDeposits() throws Exception {
+    // given empty table
+
+    // when
+    HttpResponse<String> response = getTimeDeposits("");
+
+    // then
+    assertThat(response.statusCode()).isEqualTo(200);
+    assertThat(response.body()).contains("\"content\":[]", "\"totalElements\":0", "\"totalPages\":0");
+  }
+
+  private HttpResponse<String> getTimeDeposits(String query) throws Exception {
+    HttpRequest request = HttpRequest.newBuilder(URI.create(baseUrl() + TIME_DEPOSITS_PATH + query))
+        .GET()
+        .build();
+    return http.send(request, HttpResponse.BodyHandlers.ofString());
+  }
+
+  private String baseUrl() {
     String port = environment.getRequiredProperty("local.server.port");
     String contextPath = environment.getProperty("server.servlet.context-path", "");
-    HttpRequest request = HttpRequest.newBuilder(
-            URI.create("http://localhost:" + port + contextPath + BALANCE_UPDATES_PATH))
+    return "http://localhost:" + port + contextPath;
+  }
+
+  /** Deposit 1 with two withdrawals (inserted out of date order), deposit 2 without any, deposit 3 with one. */
+  private void seedDepositsWithWithdrawals() {
+    jdbc.sql("""
+            INSERT INTO time_deposits (id, plan_type, days, balance) VALUES
+                (1, 'basic', 60, 1000.00),
+                (2, 'student', 100, 2000.00),
+                (3, 'premium', 90, 3000.00)
+            """).update();
+    jdbc.sql("""
+            INSERT INTO withdrawals (id, time_deposit_id, amount, date) VALUES
+                (1, 1, 100.00, DATE '2026-02-01'),
+                (2, 1, 50.00, DATE '2026-01-10'),
+                (3, 3, 300.00, DATE '2026-03-05')
+            """).update();
+  }
+
+  private HttpResponse<String> postBalanceUpdate() throws Exception {
+    HttpRequest request = HttpRequest.newBuilder(URI.create(baseUrl() + BALANCE_UPDATES_PATH))
         .POST(HttpRequest.BodyPublishers.noBody())
         .build();
     return http.send(request, HttpResponse.BodyHandlers.ofString());

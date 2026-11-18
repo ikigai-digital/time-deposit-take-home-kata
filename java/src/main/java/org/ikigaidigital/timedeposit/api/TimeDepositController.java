@@ -2,7 +2,11 @@ package org.ikigaidigital.timedeposit.api;
 
 import lombok.RequiredArgsConstructor;
 import org.ikigaidigital.timedeposit.api.dto.BalanceUpdateResponseDto;
+import org.ikigaidigital.timedeposit.api.dto.PageDto;
+import org.ikigaidigital.timedeposit.api.dto.TimeDepositDto;
+import org.ikigaidigital.timedeposit.api.mapper.TimeDepositDtoMapper;
 import org.ikigaidigital.timedeposit.domain.BalanceUpdateService;
+import org.ikigaidigital.timedeposit.domain.TimeDepositQueryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TimeDepositController implements TimeDepositApi {
 
   private final BalanceUpdateService balanceUpdateService;
+  private final TimeDepositQueryService timeDepositQueryService;
 
   @Override
   public ResponseEntity<BalanceUpdateResponseDto> updateBalances() {
@@ -20,5 +25,11 @@ public class TimeDepositController implements TimeDepositApi {
             .body(new BalanceUpdateResponseDto(processId, "IN_PROGRESS", "Balance update started")))
         .orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT)
             .body(new BalanceUpdateResponseDto(null, "IN_PROGRESS", "Balance update is already in progress")));
+  }
+
+  @Override
+  public ResponseEntity<PageDto<TimeDepositDto>> getTimeDeposits(int page, int size) {
+    var deposits = timeDepositQueryService.getTimeDeposits(page, size);
+    return ResponseEntity.ok(TimeDepositDtoMapper.toPageDto(deposits));
   }
 }
