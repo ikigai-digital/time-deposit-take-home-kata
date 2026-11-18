@@ -13,8 +13,9 @@ import org.ikigaidigital.timedeposit.domain.interest.policy.BasicInterestPolicy;
 import org.ikigaidigital.timedeposit.domain.interest.policy.InterestPolicy;
 import org.ikigaidigital.timedeposit.domain.interest.policy.PremiumInterestPolicy;
 import org.ikigaidigital.timedeposit.domain.interest.policy.StudentInterestPolicy;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class InterestCalculatorImpl implements InterestCalculator {
 
   private static final int INTEREST_FREE_DAYS = 30;
