@@ -2,7 +2,7 @@ package org.ikigaidigital.timedeposit.domain;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.ikigaidigital.timedeposit.domain.interest.InterestCalculator;
+import org.ikigaidigital.timedeposit.domain.interest.calculator.InterestCalculator;
 import org.ikigaidigital.timedeposit.domain.model.TimeDeposit;
 import org.springframework.stereotype.Service;
 

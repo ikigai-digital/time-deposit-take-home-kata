@@ -1,4 +1,4 @@
-package org.ikigaidigital.timedeposit.domain.interest.policy;
+package org.ikigaidigital.timedeposit.domain.interest.calculator.policy;
 
 import org.ikigaidigital.timedeposit.domain.model.TimeDeposit;
 
