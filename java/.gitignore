@@ -30,3 +30,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# personal Claude Code settings and local-only agent memory are never committed
+settings.local.json
+agent-memory-local/
