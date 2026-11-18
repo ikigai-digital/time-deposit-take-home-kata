@@ -27,7 +27,9 @@ import org.ikigaidigital.timedeposit.domain.interest.InterestCalculatorImpl;
 import org.ikigaidigital.timedeposit.domain.interest.policy.BasicInterestPolicy;
 import org.ikigaidigital.timedeposit.domain.interest.policy.PremiumInterestPolicy;
 import org.ikigaidigital.timedeposit.domain.interest.policy.StudentInterestPolicy;
+import org.ikigaidigital.timedeposit.domain.model.PageResult;
 import org.ikigaidigital.timedeposit.domain.model.TimeDeposit;
+import org.ikigaidigital.timedeposit.domain.model.TimeDepositDetails;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -221,6 +223,11 @@ class BalanceUpdateServiceImplTest implements WithAssertions {
       } finally {
         runningChunks.decrementAndGet();
       }
+    }
+
+    @Override
+    public PageResult<TimeDepositDetails> findPage(int page, int size) {
+      return null;
     }
 
     void add(TimeDeposit deposit) {
