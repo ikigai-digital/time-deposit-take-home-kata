@@ -1,0 +1,10 @@
+# PostgreSQL for the "dev" profile; started automatically by spring-boot-docker-compose.
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: time_deposit
+      POSTGRES_USER: time_deposit
+      POSTGRES_PASSWORD: time_deposit
+    ports:
+      - "5432:5432"

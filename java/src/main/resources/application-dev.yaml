@@ -1,5 +1,9 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/time_deposit
-    username: postgres
-    password: postgres
+    username: time_deposit
+    password: time_deposit
+  docker:
+    compose:
+      enabled: true
+      file: docker-compose.yaml

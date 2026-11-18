@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT}
+  port: ${SERVER_PORT:8080}
   servlet:
     context-path: /time-deposit-service
 
@@ -12,6 +12,9 @@ spring:
     password: ${DB_PASSWORD}
   liquibase:
     change-log: classpath:db/changelog/changelog-master.xml
+  docker:
+    compose:
+      enabled: false # only the "dev" profile starts docker-compose.yaml
 
 balance-update:
   chunk-size: ${BALANCE_UPDATE_CHUNK_SIZE:1000}
