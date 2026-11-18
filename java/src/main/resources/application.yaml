@@ -16,3 +16,8 @@ spring:
 balance-update:
   chunk-size: ${BALANCE_UPDATE_CHUNK_SIZE:1000}
   threads: ${BALANCE_UPDATE_THREADS:4}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  packages-to-scan: org.ikigaidigital.timedeposit.api
