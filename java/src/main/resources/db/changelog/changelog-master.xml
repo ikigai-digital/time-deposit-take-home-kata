@@ -7,5 +7,6 @@
 
     <include file="changes/001-create-time-deposits.xml" relativeToChangelogFile="true"/>
     <include file="changes/002-create-withdrawals.xml" relativeToChangelogFile="true"/>
+    <include file="changes/003-create-balance-update-processes.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
