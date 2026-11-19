@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003_1-create-balance-update-processes" author="time-deposit-service">
+        <createTable schemaName="public" tableName="balance_update_processes"
+                     remarks="One row per balance update run (IN_PROGRESS, COMPLETED or FAILED)">
+            <column name="id" type="BIGINT" autoIncrement="true" remarks="Process identifier">
+                <constraints primaryKey="true" primaryKeyName="pk_balance_update_processes" nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(16)" remarks="IN_PROGRESS, COMPLETED or FAILED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="started_at" type="TIMESTAMP" remarks="When the run started">
+                <constraints nullable="false"/>
+            </column>
+            <column name="finished_at" type="TIMESTAMP" remarks="When the run completed or failed"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="003_2-one-balance-update-in-progress" author="time-deposit-service">
+        <sql>
+            CREATE UNIQUE INDEX ux_balance_update_processes_one_in_progress
+                ON public.balance_update_processes (status)
+                WHERE status = 'IN_PROGRESS'
+        </sql>
+        <rollback>
+            <sql>DROP INDEX public.ux_balance_update_processes_one_in_progress</sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

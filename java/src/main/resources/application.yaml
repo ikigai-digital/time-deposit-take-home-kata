@@ -1,0 +1,32 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /time-deposit-service
+
+spring:
+  application:
+    name: time-deposit-service
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: ${DB_BALANCE_UPDATE_CHUNK_SIZE:${balance-update.chunk-size}}  # one JDBC batch per chunk
+        order_updates: true
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+  docker:
+    compose:
+      enabled: false # only the "dev" profile starts docker-compose.yaml
+
+balance-update:
+  chunk-size: ${BALANCE_UPDATE_CHUNK_SIZE:1000}
+  threads: ${BALANCE_UPDATE_THREADS:4}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  packages-to-scan: org.ikigaidigital.timedeposit.api

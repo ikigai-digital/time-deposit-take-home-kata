@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(mvn *)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git show*)",
+      "Bash(docker ps*)",
+      "WebFetch(domain:docs.spring.io)",
+      "WebFetch(domain:docs.hibernate.org)",
+      "WebFetch(domain:docs.liquibase.com)",
+      "WebFetch(domain:java.testcontainers.org)",
+      "WebFetch(domain:vladmihalcea.com)",
+      "WebFetch(domain:thorben-janssen.com)",
+      "WebFetch(domain:code.claude.com)"
+    ],
+    "ask": [
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(docker compose *)"
+    ],
+    "deny": [
+      "Bash(git push *)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean *)",
+      "Bash(rm -rf *)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/compile-gate.sh",
+            "timeout": 300
+          }
+        ]
+      }
+    ]
+  }
+}
