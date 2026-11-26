@@ -1,0 +1,22 @@
+# Local PostgreSQL matching TimeDepositDatabase: postgres:16-alpine, database
+# timedeposit. The init script is the schema the Testcontainer applies.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: timedeposit
+      POSTGRES_USER: timedeposit
+      POSTGRES_PASSWORD: timedeposit
+    ports:
+      - "5432:5432"
+    volumes:
+      - timedeposit-data:/var/lib/postgresql/data
+      - ./src/test/resources/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U timedeposit -d timedeposit"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  timedeposit-data:
