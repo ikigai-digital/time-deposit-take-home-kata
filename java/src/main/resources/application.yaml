@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/timedeposit
+    username: timedeposit
+    password: timedeposit
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      # Keep timeDeposits, planType, and timeDepositId exactly as created.
+      # Spring's default strategy would rewrite them to snake_case, and
+      # PostgreSQL would then fold the unquoted names to lowercase.
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate.globally_quoted_identifiers: true
