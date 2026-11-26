@@ -44,8 +44,8 @@ class TimeDepositDatabaseTest extends TimeDepositDatabase {
     void storesADepositAndItsWithdrawal() throws SQLException {
         try (Connection connection = connection()) {
             connection.setAutoCommit(false);
-            insertDeposit(connection, 1, "basic", 45, new BigDecimal("1234567.00"));
-            insertWithdrawal(connection, 10, 1, new BigDecimal("100.50"), Date.valueOf("2026-01-15"));
+            insertDeposit(connection, 100, "basic", 45, new BigDecimal("1234567.00"));
+            insertWithdrawal(connection, 100, 100, new BigDecimal("100.50"), Date.valueOf("2026-01-15"));
 
             try (PreparedStatement statement = connection.prepareStatement("""
                     SELECT d."planType", d.days, d.balance, w.amount, w.date
@@ -53,7 +53,7 @@ class TimeDepositDatabaseTest extends TimeDepositDatabase {
                     JOIN withdrawals w ON w."timeDepositId" = d.id
                     WHERE d.id = ?
                     """)) {
-                statement.setInt(1, 1);
+                statement.setInt(1, 100);
                 try (ResultSet rows = statement.executeQuery()) {
                     assertThat(rows.next()).isTrue();
                     assertThat(rows.getString("planType")).isEqualTo("basic");
@@ -73,7 +73,7 @@ class TimeDepositDatabaseTest extends TimeDepositDatabase {
         try (Connection connection = connection()) {
             connection.setAutoCommit(false);
             assertThatThrownBy(() ->
-                    insertWithdrawal(connection, 10, 999, new BigDecimal("10.00"), Date.valueOf("2026-01-15")))
+                    insertWithdrawal(connection, 101, 999, new BigDecimal("10.00"), Date.valueOf("2026-01-15")))
                     .isInstanceOf(SQLException.class)
                     .extracting(exception -> ((SQLException) exception).getSQLState())
                     .isEqualTo("23503");

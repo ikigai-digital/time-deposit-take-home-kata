@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/timedeposit
+    url: jdbc:postgresql://localhost:5433/timedeposit
     username: timedeposit
     password: timedeposit
   jpa:
@@ -14,3 +14,5 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate.globally_quoted_identifiers: true
+  flyway:
+    locations: classpath:db/migration
