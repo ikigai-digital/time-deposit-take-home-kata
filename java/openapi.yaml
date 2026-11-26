@@ -1,0 +1,131 @@
+# Two endpoints only. POST is used for the balance update because the client does
+# not send a replacement resource; the server recalculates every stored balance.
+# The update response reuses the list representation so the stored balances can
+# be read after interest is applied.
+#
+# Column types follow the PostgreSQL schema:
+#   INTEGER -> integer (int32)
+#   TEXT    -> string
+#   NUMERIC -> string with format decimal, so arbitrary precision is not lost in JSON
+#   DATE    -> string with format date (YYYY-MM-DD)
+openapi: 3.1.0
+info:
+  title: XA Bank Time Deposit API
+  version: 1.0.0
+  description: >
+    Retrieve every time deposit and apply the monthly balance update to all
+    deposits stored in the database.
+servers:
+  - url: http://localhost:8080
+    description: Local application
+# The assignment does not define authentication.
+security: []
+paths:
+  /time-deposits:
+    get:
+      operationId: listTimeDeposits
+      summary: Retrieve all time deposits
+      tags:
+        - Time deposits
+      responses:
+        "200":
+          description: Every time deposit, including its withdrawals.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeDepositList"
+              example:
+                - id: 1
+                  planType: basic
+                  balance: "1234567.00"
+                  days: 45
+                  withdrawals:
+                    - id: 10
+                      timeDepositId: 1
+                      amount: "100.50"
+                      date: "2026-01-15"
+  /time-deposits/balance-updates:
+    post:
+      operationId: updateTimeDepositBalances
+      summary: Update the balances of all time deposits
+      description: >
+        Recalculates and stores the balance of every time deposit. No request
+        body is accepted.
+      tags:
+        - Time deposits
+      responses:
+        "200":
+          description: Every time deposit after its balance was updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeDepositList"
+components:
+  schemas:
+    TimeDepositList:
+      type: array
+      items:
+        $ref: "#/components/schemas/TimeDeposit"
+    TimeDeposit:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - planType
+        - balance
+        - days
+        - withdrawals
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: timeDeposits.id
+        planType:
+          type: string
+          description: >
+            timeDeposits.planType. The interest rules recognize basic, student,
+            and premium.
+        balance:
+          $ref: "#/components/schemas/Decimal"
+          description: timeDeposits.balance
+        days:
+          type: integer
+          format: int32
+          description: timeDeposits.days
+        withdrawals:
+          type: array
+          description: Withdrawals whose timeDepositId is this deposit.
+          items:
+            $ref: "#/components/schemas/Withdrawal"
+    Withdrawal:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - timeDepositId
+        - amount
+        - date
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: withdrawals.id
+        timeDepositId:
+          type: integer
+          format: int32
+          description: withdrawals.timeDepositId, foreign key to timeDeposits.id
+        amount:
+          $ref: "#/components/schemas/Decimal"
+          description: withdrawals.amount
+        date:
+          type: string
+          format: date
+          description: withdrawals.date
+    Decimal:
+      type: string
+      format: decimal
+      pattern: '^-?(0|[1-9]\d*)(\.\d+)?$'
+      description: PostgreSQL NUMERIC serialized as a base-10 decimal string.
+      examples:
+        - "1234567.00"
+        - "100.50"
