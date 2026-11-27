@@ -5,26 +5,31 @@ import java.math.RoundingMode;
 import java.util.List;
 
 public class TimeDepositCalculator {
-    public void updateBalance(List<TimeDeposit> xs) {
-        for (int i = 0; i < xs.size(); i++) {
-            double interest = 0;
+    private static final int MONTHS_PER_YEAR = 12;
+    private static final int SCALE = 2;
 
-            if (xs.get(i).getDays() > 30) {
-                if (xs.get(i).getPlanType().equals("student")) {
-                    if (xs.get(i).getDays() < 366) {
-                        interest += xs.get(i).getBalance() * 0.03 / 12;
-                    }
-                } else if (xs.get(i).getPlanType().equals("premium")) {
-                    if (xs.get(i).getDays() > 45) {
-                        interest += xs.get(i).getBalance() * 0.05 / 12;
-                    }
-                } else if (xs.get(i).getPlanType().equals("basic")) {
-                    interest += xs.get(i).getBalance() * 0.01 / 12;
-                }
-            }
-
-            double a2d = xs.get(i).getBalance() + (new BigDecimal(interest).setScale(2, RoundingMode.HALF_UP)).doubleValue();
-            xs.get(i).setBalance(a2d);
+    public void updateBalance(List<TimeDeposit> deposits) {
+        for (TimeDeposit deposit : deposits) {
+            double interest = monthlyInterest(deposit);
+            double roundedInterest = roundToCents(interest);
+            double newBalance = deposit.getBalance() + roundedInterest;
+            deposit.setBalance(newBalance);
         }
+    }
+
+    private double monthlyInterest(TimeDeposit deposit) {
+        // Checked before resolving the plan: the legacy code never read planType inside the
+        // interest-free period, so e.g. a null planType there must not fail.
+        if (PlanType.noPlanEarnsInterestAt(deposit.getDays())) {
+            return 0;
+        }
+        return PlanType.fromCode(deposit.getPlanType())
+                .filter(plan -> plan.earnsInterest(deposit.getDays()))
+                .map(plan -> deposit.getBalance() * plan.annualInterestRate() / MONTHS_PER_YEAR)
+                .orElse(0.0);
+    }
+
+    private double roundToCents(double amount) {
+        return new BigDecimal(amount).setScale(SCALE, RoundingMode.HALF_UP).doubleValue();
     }
 }
